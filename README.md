@@ -2,6 +2,32 @@
 
 A backend service for ingesting and searching text and images using vector embeddings. This API allows you to store text and/or images as vector embeddings along with their metadata and perform similarity searches using either text or image queries.
 
+## Table of Contents
+
+- [Features](#features)
+- [Project Structure](#project-structure)
+- [Technology Choices](#technology-choices)
+  - [Programming Language: Python](#programming-language-python)
+  - [Web Framework: FastAPI](#web-framework-fastapi)
+  - [Embedding Model: CLIP (via sentence-transformers)](#embedding-model-clip-via-sentence-transformers)
+  - [Vector Database: ChromaDB](#vector-database-chromadb)
+- [Installation](#installation)
+  - [Prerequisites](#prerequisites)
+  - [Setup](#setup)
+  - [Docker](#docker)
+- [Running the Application](#running-the-application)
+- [API Endpoints](#api-endpoints)
+  - [POST /ingest](#post-ingest)
+  - [POST /search](#post-search)
+  - [GET /health](#get-health)
+  - [DELETE /items](#new-endpoint-delete-items)
+- [Usage Examples](#usage-examples)
+- [Design Decisions and Trade-offs](#design-decisions-and-trade-offs)
+- [Future Improvements](#future-improvements)
+- [Assumptions](#assumptions)
+- [Troubleshooting](#troubleshooting)
+
+
 ## Features
 - Ingest text and/or images with metadata
 - Batch ingestion support
@@ -99,6 +125,7 @@ pip install -r requirements.txt
 
 **Note**: The first time you run the application, sentence-transformers will download the CLIP model. This happens automatically.
 
+
 ## Running the Application
 
 Start the FastAPI server:
@@ -116,6 +143,27 @@ uvicorn main:app --reload --host 0.0.0.0 --port 8000
 The API will be available at:
 - **API**: http://localhost:8000
 - **Interactive Docs**: http://localhost:8000/docs
+
+
+## Docker
+
+Containerize the FastAPI app using the provided Dockerfile.
+
+### Files
+- `Dockerfile`: Multi-stage build with Python 3.11-slim and Gunicorn+Uvicorn
+- `.dockerignore`: Excludes unnecessary files from the image
+
+### Build and Run
+```bash
+# Build the Docker image
+docker build -t multimodal-vector-search:local .
+
+# Run the container (exposes port 8080)
+docker run --rm -p 8080:8080 multimodal-vector-search:local
+```
+
+
+
 
 ## API Endpoints
 
@@ -385,21 +433,4 @@ Ensure the application has write permissions in the current directory for Chroma
 - Verify image URLs are accessible
 - Check base64 encoding is correct
 - Ensure image formats are supported (JPEG, PNG)
-
-## Docker
-
-Containerize the FastAPI app using the provided Dockerfile.
-
-### Files
-- `Dockerfile`: Multi-stage build with Python 3.11-slim and Gunicorn+Uvicorn
-- `.dockerignore`: Excludes unnecessary files from the image
-
-### Build and Run
-```bash
-# Build the Docker image
-docker build -t multimodal-vector-search:local .
-
-# Run the container (exposes port 8080)
-docker run --rm -p 8080:8080 multimodal-vector-search:local
-```
 
