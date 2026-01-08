@@ -99,6 +99,12 @@ multi-modal-vector-search/
   - Cons: Less scalable than distributed solutions (Qdrant, OpenSearch) for very large datasets
 
 ## Installation
+> [!TIP]
+> Use **Docker** to run the service if you experience package conflicts.
+
+> [!NOTE]
+> When the service first starts, it will download the model. You may need to wait a few moments before interacting with the service. You can start using the endpoints after you see `Application startup complete` in the logs.
+
 
 ### Prerequisites
 - Python 3.11 or higher
